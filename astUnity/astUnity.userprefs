@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Cell.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Cell.cs" Line="200" Column="3" />
+      <File FileName="Assets\Scripts\Grid.cs" Line="23" Column="17" />
+      <File FileName="Assets\Scripts\ZeroLayer.cs" Line="28" Column="63" />
+      <File FileName="Assets\Scripts\Obstacle.cs" Line="16" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
