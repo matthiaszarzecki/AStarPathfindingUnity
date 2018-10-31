@@ -6,6 +6,8 @@
 
 Implementation of the A*-Algorithm in Unity, with various interactions available
 
+![A* Unity Screenshot](astar05.png)
+
 ![A* Unity Screenshot](astar06.png)
 
 Created by Matthias Zarzecki, 2015-06
