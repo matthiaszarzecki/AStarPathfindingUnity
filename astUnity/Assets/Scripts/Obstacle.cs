@@ -8,7 +8,8 @@ public class Obstacle : MonoBehaviour {
   }
 
   private void OnMouseOver() {
-    if (Input.GetKey(KeyCode.Mouse0))
-      inputHandler.otherCube = gameObject;
+    if (Input.GetKey(KeyCode.Mouse0)) {
+      inputHandler.grabbedCube = gameObject;
+    }
   }
 }

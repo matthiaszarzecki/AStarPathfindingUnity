@@ -90,9 +90,9 @@ public class Cell : MonoBehaviour {
         currentRenderer.material = materialInvalid;
       }
     } else if (other.tag == "Start") {
-      grid.startID = id;
+      grid.startCellID = id;
     } else if (other.tag == "Target") {
-      grid.targetID = id;
+      grid.targetCellID = id;
     }
   }
 

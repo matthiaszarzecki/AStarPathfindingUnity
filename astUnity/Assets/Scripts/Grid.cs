@@ -3,13 +3,14 @@ using System.Collections;
 
 public class Grid : MonoBehaviour {
   public GameObject cellPrefab;
-  public int numberOfCells = 100;
   public int cellsPerRow = 10;
-  public int startID = 12;
-  public int targetID = 87;
-  public bool isCalculating;
-
+  public int startCellID = 12;
+  public int targetCellID = 87;
+  
+  [HideInInspector] public bool isCalculating;
   public ArrayList allCells;
+  
+  private int numberOfCells;
   private ArrayList openList;
   private ArrayList closedList;
   private Cell startCell;
@@ -20,6 +21,7 @@ public class Grid : MonoBehaviour {
   }
 
   private void CreateCells() {
+    numberOfCells = cellsPerRow * cellsPerRow;
     allCells = new ArrayList();
 
     int zOffset = 0;
@@ -42,19 +44,21 @@ public class Grid : MonoBehaviour {
   }
 
   public void CalculatePathExternal() {
-    // Reset all cells
+    ResetAllCells();
+    StartCoroutine(CalculatePathRoutine());
+  }
+
+  private void ResetAllCells() {
     foreach (GameObject cell in allCells) {
       cell.GetComponent<Cell>().Reset();
     }
-
-    StartCoroutine(CalculatePath());
   }
 
-  private IEnumerator CalculatePath() {
+  private IEnumerator CalculatePathRoutine() {
     isCalculating = true;
 
-    CreateStart(startID);
-    CreateTarget(targetID);
+    CreateStart(startCellID);
+    CreateTarget(targetCellID);
 
     openList = new ArrayList();
     closedList = new ArrayList();

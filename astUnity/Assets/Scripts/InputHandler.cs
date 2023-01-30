@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class InputHandler : MonoBehaviour {
-  public GameObject otherCube;
+  [HideInInspector] public GameObject grabbedCube;
   
   private Grid grid;
   private Camera gameCamera;
@@ -12,17 +12,17 @@ public class InputHandler : MonoBehaviour {
   }
 
   private void Update() {
-    if (otherCube && !grid.isCalculating) {
+    if (grabbedCube && !grid.isCalculating) {
       if (Input.GetKey(KeyCode.Mouse0)) {
         Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100)) {
-          otherCube.GetComponent<Collider>().enabled = false;
-          otherCube.transform.position = FindClosestCellPosition(hit.point) + new Vector3(0, 1, 0);
+          grabbedCube.GetComponent<Collider>().enabled = false;
+          grabbedCube.transform.position = FindClosestCellPosition(hit.point) + new Vector3(0, 1, 0);
         }
       } else if (Input.GetKeyUp(KeyCode.Mouse0)) {
-        otherCube.GetComponent<Collider>().enabled = true;
-        otherCube = null;
+        grabbedCube.GetComponent<Collider>().enabled = true;
+        grabbedCube = null;
 
         grid.CalculatePathExternal();
       }
