@@ -7,7 +7,7 @@ public class Grid : MonoBehaviour {
   public int cellsPerRow = 10;
   public int startID = 12;
   public int targetID = 87;
-  public bool isCalculating = false;
+  public bool isCalculating;
 
   public ArrayList allCells;
   private ArrayList openList;
@@ -29,7 +29,7 @@ public class Grid : MonoBehaviour {
     for (int i = 0; i < numberOfCells; i++) {
       counter += 1;
       xOffset += 1;
-      GameObject newCell = (GameObject)Instantiate(cellPrefab, new Vector3(transform.position.x + xOffset, transform.position.y, transform.position.z + zOffset), transform.rotation);
+      GameObject newCell = Instantiate(cellPrefab, new Vector3(transform.position.x + xOffset, transform.position.y, transform.position.z + zOffset), transform.rotation);
       newCell.GetComponent<Cell>().id = i;
       allCells.Add(newCell);
 

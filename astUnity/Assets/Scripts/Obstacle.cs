@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Obstacle : MonoBehaviour {
   private ZeroLayer zeroLayer;
 
-  void Start() {
+  private void Start() {
     zeroLayer = FindObjectOfType<ZeroLayer>();
   }
 

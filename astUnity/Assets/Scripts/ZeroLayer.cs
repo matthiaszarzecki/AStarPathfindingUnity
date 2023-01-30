@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-// Handles Raycast-detection
+/// Handles Raycast-detection
 public class ZeroLayer : MonoBehaviour {
   public GameObject otherCube;
   private Grid grid;
 
-  void Start() {
+  private void Start() {
     grid = FindObjectOfType<Grid>();
   }
 

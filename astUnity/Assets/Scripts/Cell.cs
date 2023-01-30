@@ -2,10 +2,10 @@
 using System.Collections;
 
 public class Cell : MonoBehaviour {
-  public int id = 0;
+  public int id;
   public bool isValid = true;
-  public bool onOpenList = false;
-  public bool onClosedList = false;
+  public bool onOpenList;
+  public bool onClosedList;
   public Cell parent;
   public float F;
   public float G;
