@@ -26,11 +26,11 @@ public class Cell : MonoBehaviour {
   private Renderer currentRenderer;
   private Grid grid;
 
-  void Awake() {
+  private void Awake() {
     currentRenderer = GetComponent<Renderer>();
   }
 
-  void Start() {
+  private void Start() {
     materialValid = currentRenderer.material;
     grid = FindObjectOfType<Grid>();
   }
@@ -45,14 +45,10 @@ public class Cell : MonoBehaviour {
     onOpenList = false;
     onClosedList = false;
 
-    if (isValid) {
-      currentRenderer.material = materialValid;
-    } else {
-      currentRenderer.material = materialInvalid;
-    }
+    currentRenderer.material = isValid ? materialValid : materialInvalid;
   }
 
-  void FixedUpdate() {
+  private void FixedUpdate() {
     // Display Cell Information
     if (isValid) {
       if (F == 0.0f) {
@@ -88,7 +84,7 @@ public class Cell : MonoBehaviour {
       indicatorRenderer.enabled = false;
   }
 
-  void OnTriggerStay(Collider other) {
+  private void OnTriggerStay(Collider other) {
     if (other.tag == "Obstacle") {
       if (isValid) {
         isValid = false;
@@ -100,7 +96,7 @@ public class Cell : MonoBehaviour {
       grid.targetID = this.id;
   }
 
-  void OnTriggerExit(Collider other) {
+  private void OnTriggerExit(Collider other) {
     if (other.tag == "Obstacle") {
       if (!isValid) {
         isValid = true;
@@ -134,7 +130,7 @@ public class Cell : MonoBehaviour {
 
   // Gets each neighbor by calculating its position, and checking if a cell exists
   // at those coordinates.
-  // Could be replaced with a kernel-check over a twodimensional array.
+  // Could be replaced with a kernel-check over a two-dimensional array.
   public ArrayList GetAdjacentCells(ArrayList allCells, int cellsPerRow) {
     ArrayList adjacentCells = new ArrayList();
 
@@ -221,15 +217,15 @@ public class Cell : MonoBehaviour {
     return adjacentCells;
   }
 
-  private bool IsCellInvalid(Cell inputCell) {
+  private static bool IsCellInvalid(Cell inputCell) {
     return (inputCell != null && !inputCell.isValid);
   }
 
-  private bool IsCellValid(Cell inputCell) {
+  private static bool IsCellValid(Cell inputCell) {
     return (inputCell != null && inputCell.isValid);
   }
 
-  private bool IsInBounds(int i, ArrayList array) {
+  private static bool IsInBounds(int i, ArrayList array) {
     return (i >= 0 && i < array.Count);
   }
 }
