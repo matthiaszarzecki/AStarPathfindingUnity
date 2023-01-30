@@ -15,7 +15,7 @@ public class Grid : MonoBehaviour {
   private Cell startCell;
   private Cell targetCell;
 
-  void Start() {
+  private void Start() {
     CreateCells();
   }
 
@@ -62,7 +62,7 @@ public class Grid : MonoBehaviour {
     Cell currentCell = startCell;
     AddCellToClosedList(currentCell);
 
-    float cycleDelay = 0.0f;
+    const float cycleDelay = 0f;
     int cycleCounter = 0;
     while (currentCell.id != targetCell.id) {
       yield return new WaitForSeconds(cycleDelay);
@@ -154,6 +154,5 @@ public class Grid : MonoBehaviour {
   private void CreateTarget(int id) {
     GameObject tempTargetCell = (GameObject)allCells[id];
     targetCell = tempTargetCell.GetComponent<Cell>();
-    targetCell.SetToTarget();
   }
 }

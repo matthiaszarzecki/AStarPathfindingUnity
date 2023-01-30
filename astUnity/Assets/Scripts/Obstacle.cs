@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
-  private ZeroLayer zeroLayer;
+  private InputHandler inputHandler;
 
   private void Start() {
-    zeroLayer = FindObjectOfType<ZeroLayer>();
+    inputHandler = FindObjectOfType<InputHandler>();
   }
 
-  void OnMouseOver() {
+  private void OnMouseOver() {
     if (Input.GetKey(KeyCode.Mouse0))
-      zeroLayer.otherCube = gameObject;
+      inputHandler.otherCube = gameObject;
   }
 }

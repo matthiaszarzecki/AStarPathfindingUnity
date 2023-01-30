@@ -19,7 +19,6 @@ public class Cell : MonoBehaviour {
 
   public Material materialInvalid;
   public Material materialStart;
-  public Material materialTarget;
   public Material materialOnClosedList;
   public Material materialOnOpenList;
   private Material materialValid;
@@ -38,9 +37,9 @@ public class Cell : MonoBehaviour {
   public void Reset() {
     parent = null;
 
-    F = 0.0f;
-    G = 0.0f;
-    H = 0.0f;
+    F = 0f;
+    G = 0f;
+    H = 0f;
 
     onOpenList = false;
     onClosedList = false;
@@ -51,19 +50,19 @@ public class Cell : MonoBehaviour {
   private void FixedUpdate() {
     // Display Cell Information
     if (isValid) {
-      if (F == 0.0f) {
+      if (F == 0f) {
         displayF.text = "";
       } else {
         displayF.text = "F: " + F.ToString("F2");
       }
 
-      if (G == 0.0f) {
+      if (G == 0f) {
         displayG.text = "";
       } else {
         displayG.text = "G: " + G.ToString("F2");
       }
 
-      if (H == 0.0f) {
+      if (H == 0f) {
         displayH.text = "";
       } else {
         displayH.text = "H: " + H.ToString("F2");
@@ -90,10 +89,11 @@ public class Cell : MonoBehaviour {
         isValid = false;
         currentRenderer.material = materialInvalid;
       }
-    } else if (other.tag == "Start")
-      grid.startID = this.id;
-    else if (other.tag == "Target")
-      grid.targetID = this.id;
+    } else if (other.tag == "Start") {
+      grid.startID = id;
+    } else if (other.tag == "Target") {
+      grid.targetID = id;
+    }
   }
 
   private void OnTriggerExit(Collider other) {
@@ -123,16 +123,12 @@ public class Cell : MonoBehaviour {
   public void SetToStart() {
     currentRenderer.material = materialStart;
   }
+  
 
-  public void SetToTarget() {
-    //currentRenderer.material = materialTarget;
-  }
-
-  // Gets each neighbor by calculating its position, and checking if a cell exists
-  // at those coordinates.
+  // Gets each neighbor by calculating its position, and checking if a cell exists at those coordinates.
   // Could be replaced with a kernel-check over a two-dimensional array.
   public ArrayList GetAdjacentCells(ArrayList allCells, int cellsPerRow) {
-    ArrayList adjacentCells = new ArrayList();
+    ArrayList adjacentCells = new ();
 
     Cell neighbourUpperLeft = null;
     Cell neighbourUpper = null;
@@ -143,7 +139,7 @@ public class Cell : MonoBehaviour {
     Cell neighbourLower = null;
     Cell neighbourLowerRight = null;
 
-    //check each neighbour
+    // Check each neighbour
     if (id % cellsPerRow != 0 && IsInBounds(id + cellsPerRow - 1, allCells))
       neighbourUpperLeft = ((GameObject)allCells[id + cellsPerRow - 1]).GetComponent<Cell>();
 
@@ -167,8 +163,8 @@ public class Cell : MonoBehaviour {
 
     if ((id + 1) % cellsPerRow != 0 && IsInBounds(id - cellsPerRow + 1, allCells))
       neighbourLowerRight = ((GameObject)allCells[id - cellsPerRow + 1]).GetComponent<Cell>();
-
-    //if neighbor exists and is valid, add to neighbour-array
+    
+    // If neighbor exists and is valid, add to neighbour-array
     if (IsCellValid(neighbourUpperLeft))
       adjacentCells.Add(neighbourUpperLeft);
 
@@ -193,7 +189,7 @@ public class Cell : MonoBehaviour {
     if (IsCellValid(neighbourLowerRight))
       adjacentCells.Add(neighbourLowerRight);
 
-    //diagonal-edge-detection. if at an edge, remove from neighbour-array
+    // Diagonal edge detection. If at an edge, remove from neighbour-array
     if (IsCellInvalid(neighbourRight)) {
       adjacentCells.Remove(neighbourUpperRight);
       adjacentCells.Remove(neighbourLowerRight);
