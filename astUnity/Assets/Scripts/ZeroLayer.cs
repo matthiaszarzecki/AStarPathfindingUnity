@@ -9,7 +9,7 @@ public class ZeroLayer : MonoBehaviour {
     grid = FindObjectOfType<Grid>();
   }
 
-  void Update() {
+  private void Update() {
     if (!grid.isCalculating) {
       if (Input.GetKey(KeyCode.Mouse0)) {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -36,11 +36,11 @@ public class ZeroLayer : MonoBehaviour {
     GameObject closest = null;
     float distance = Mathf.Infinity;
     Vector3 position = startPosition;
-    foreach (GameObject gameObject in grid.allCells) {
-      Vector3 diff = gameObject.transform.position - position;
+    foreach (GameObject cell in grid.allCells) {
+      Vector3 diff = cell.transform.position - position;
       float curDistance = diff.sqrMagnitude;
       if (curDistance < distance) {
-        closest = gameObject;
+        closest = cell;
         distance = curDistance;
       }
     }

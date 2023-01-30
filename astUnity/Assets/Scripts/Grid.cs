@@ -43,8 +43,8 @@ public class Grid : MonoBehaviour {
 
   public void CalculatePathExternal() {
     // Reset all cells
-    foreach (GameObject gameObject in allCells) {
-      gameObject.GetComponent<Cell>().Reset();
+    foreach (GameObject cell in allCells) {
+      cell.GetComponent<Cell>().Reset();
     }
 
     StartCoroutine(CalculatePath());
@@ -67,17 +67,17 @@ public class Grid : MonoBehaviour {
     while (currentCell.id != targetCell.id) {
       yield return new WaitForSeconds(cycleDelay);
 
-      //safety-abort in case of endless loop
+      // Safety-abort in case of endless loop
       cycleCounter++;
       if (cycleCounter >= numberOfCells) {
         Debug.Log("No Path Found");
         break;
       }
 
-      //add all cells adjacent to currentCell to openList
+      // Add all cells adjacent to currentCell to openList
       foreach (Cell cell in GetAdjacentCells(currentCell)) {
         float tentativeG = currentCell.G + Vector3.Distance(currentCell.transform.position, cell.transform.position);
-        //if cell is on closed list skip to next cycle
+        // If cell is on closed list skip to next cycle
         if (cell.onClosedList && tentativeG > cell.G) {
           continue;
         }
@@ -95,7 +95,7 @@ public class Grid : MonoBehaviour {
 
       yield return new WaitForSeconds(cycleDelay);
 
-      //get cell with lowest F value from openList, set it to currentCell
+      // Get cell with lowest F value from openList, set it to currentCell
       float lowestFValue = 99999.9f;
       foreach (Cell cell in openList) {
         if (cell.F < lowestFValue) {
@@ -104,13 +104,13 @@ public class Grid : MonoBehaviour {
         }
       }
 
-      //remove currentCell from openList, add to closedList
+      // Remove currentCell from openList, add to closedList
       openList.Remove(currentCell);
       AddCellToClosedList(currentCell);
     }
 
-    //get path
-    ArrayList path = new ArrayList();
+    // Get path
+    ArrayList path = new ();
     currentCell = targetCell;
     while (currentCell.id != startCell.id) {
       path.Add(currentCell);
@@ -119,9 +119,9 @@ public class Grid : MonoBehaviour {
     path.Add(currentCell);
     path.Reverse();
 
-    //draw path
+    // Draw path
     LineRenderer lineRenderer = GetComponent<LineRenderer>();
-    lineRenderer.SetVertexCount(path.Count);
+    lineRenderer.positionCount = path.Count;
     int i = 0;
     foreach (Cell cell in path) {
       lineRenderer.SetPosition(i, cell.transform.position + new Vector3(0, 1, 0));
