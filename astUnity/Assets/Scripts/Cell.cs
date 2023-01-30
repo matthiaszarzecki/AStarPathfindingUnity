@@ -117,7 +117,10 @@ public class Cell : MonoBehaviour {
   }
 
   public void CalculateH(Cell targetCell) {
-    H = Mathf.Abs(targetCell.transform.position.x - transform.position.x) + Mathf.Abs(targetCell.transform.position.z - transform.position.z);
+    Vector3 targetPosition = targetCell.transform.position;
+    Vector3 ownPosition = transform.position;
+    float manhattanDistance = Mathf.Abs(targetPosition.x - ownPosition.x) + Mathf.Abs(targetPosition.z - ownPosition.z);
+    H = manhattanDistance;
   }
 
   public void SetToStart() {
