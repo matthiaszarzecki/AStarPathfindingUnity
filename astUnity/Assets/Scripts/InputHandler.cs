@@ -30,11 +30,11 @@ public class InputHandler : MonoBehaviour {
   }
 
   private Vector3 FindClosestCellPosition(Vector3 startPosition) {
-    GameObject closest = null;
+    Cell closest = null;
     float distance = Mathf.Infinity;
     Vector3 position = startPosition;
     
-    foreach (GameObject cell in grid.allCells) {
+    foreach (Cell cell in grid.allCells) {
       Vector3 diff = cell.transform.position - position;
       float curDistance = diff.sqrMagnitude;
       if (curDistance < distance) {

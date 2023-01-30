@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 
 public class Grid : MonoBehaviour {
-  public GameObject cellPrefab;
+  public Cell cellPrefab;
   public int cellsPerRow = 10;
   public int startCellID = 12;
   public int targetCellID = 87;
   
   [HideInInspector] public bool isCalculating;
-  public ArrayList allCells;
+  public List<Cell> allCells;
   
   private int numberOfCells;
   private ArrayList openList;
@@ -22,7 +24,7 @@ public class Grid : MonoBehaviour {
 
   private void CreateCells() {
     numberOfCells = cellsPerRow * cellsPerRow;
-    allCells = new ArrayList();
+    allCells = new List<Cell>();
 
     int zOffset = 0;
     int xOffset = 0;
@@ -31,8 +33,10 @@ public class Grid : MonoBehaviour {
     for (int i = 0; i < numberOfCells; i++) {
       counter += 1;
       xOffset += 1;
-      GameObject newCell = Instantiate(cellPrefab, new Vector3(transform.position.x + xOffset, transform.position.y, transform.position.z + zOffset), transform.rotation);
-      newCell.GetComponent<Cell>().id = i;
+
+      Vector3 newPosition = transform.position + new Vector3(xOffset, 0, zOffset);
+      Cell newCell = Instantiate(cellPrefab, newPosition, Quaternion.identity);
+      newCell.id = i;
       allCells.Add(newCell);
 
       if (counter >= cellsPerRow) {
@@ -49,8 +53,8 @@ public class Grid : MonoBehaviour {
   }
 
   private void ResetAllCells() {
-    foreach (GameObject cell in allCells) {
-      cell.GetComponent<Cell>().Reset();
+    foreach (Cell cell in allCells) {
+      cell.Reset();
     }
   }
 
@@ -135,7 +139,8 @@ public class Grid : MonoBehaviour {
     isCalculating = false;
   }
 
-  private ArrayList GetAdjacentCells(Cell currentCell) {
+  [CanBeNull]
+  private List<Cell> GetAdjacentCells(Cell currentCell) {
     return currentCell.GetAdjacentCells(allCells, cellsPerRow);
   }
 
@@ -150,13 +155,11 @@ public class Grid : MonoBehaviour {
   }
 
   private void CreateStart(int id) {
-    GameObject tempStartCell = (GameObject)allCells[id];
-    startCell = tempStartCell.GetComponent<Cell>();
+    startCell = allCells[id];
     startCell.SetToStart();
   }
 
   private void CreateTarget(int id) {
-    GameObject tempTargetCell = (GameObject)allCells[id];
-    targetCell = tempTargetCell.GetComponent<Cell>();
+    targetCell = allCells[id];
   }
 }

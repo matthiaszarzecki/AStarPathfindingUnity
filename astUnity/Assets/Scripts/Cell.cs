@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Cell : MonoBehaviour {
   public int id;
@@ -127,8 +127,8 @@ public class Cell : MonoBehaviour {
 
   // Gets each neighbor by calculating its position, and checking if a cell exists at those coordinates.
   // Could be replaced with a kernel-check over a two-dimensional array.
-  public ArrayList GetAdjacentCells(ArrayList allCells, int cellsPerRow) {
-    ArrayList adjacentCells = new ();
+  public List<Cell> GetAdjacentCells(List<Cell> allCells, int cellsPerRow) {
+    List<Cell> adjacentCells = new ();
 
     Cell neighbourUpperLeft = null;
     Cell neighbourUpper = null;
@@ -141,28 +141,28 @@ public class Cell : MonoBehaviour {
 
     // Check each neighbour
     if (id % cellsPerRow != 0 && IsInBounds(id + cellsPerRow - 1, allCells))
-      neighbourUpperLeft = ((GameObject)allCells[id + cellsPerRow - 1]).GetComponent<Cell>();
+      neighbourUpperLeft = (allCells[id + cellsPerRow - 1]).GetComponent<Cell>();
 
     if (IsInBounds(id + cellsPerRow, allCells))
-      neighbourUpper = ((GameObject)allCells[id + cellsPerRow]).GetComponent<Cell>();
+      neighbourUpper = (allCells[id + cellsPerRow]).GetComponent<Cell>();
 
     if ((id + 1) % cellsPerRow != 0 && IsInBounds(id + cellsPerRow + 1, allCells))
-      neighbourUpperRight = ((GameObject)allCells[id + cellsPerRow + 1]).GetComponent<Cell>();
+      neighbourUpperRight = (allCells[id + cellsPerRow + 1]).GetComponent<Cell>();
 
     if (id % cellsPerRow != 0)
-      neighbourLeft = ((GameObject)allCells[id - 1]).GetComponent<Cell>();
+      neighbourLeft = (allCells[id - 1]).GetComponent<Cell>();
 
     if ((id + 1) % cellsPerRow != 0)
-      neighbourRight = ((GameObject)allCells[id + 1]).GetComponent<Cell>();
+      neighbourRight = (allCells[id + 1]).GetComponent<Cell>();
 
     if (id % cellsPerRow != 0 && IsInBounds(id - cellsPerRow - 1, allCells))
-      neighbourLowerLeft = ((GameObject)allCells[id - cellsPerRow - 1]).GetComponent<Cell>();
+      neighbourLowerLeft = (allCells[id - cellsPerRow - 1]).GetComponent<Cell>();
 
     if (IsInBounds(id - cellsPerRow, allCells))
-      neighbourLower = ((GameObject)allCells[id - cellsPerRow]).GetComponent<Cell>();
+      neighbourLower = (allCells[id - cellsPerRow]).GetComponent<Cell>();
 
     if ((id + 1) % cellsPerRow != 0 && IsInBounds(id - cellsPerRow + 1, allCells))
-      neighbourLowerRight = ((GameObject)allCells[id - cellsPerRow + 1]).GetComponent<Cell>();
+      neighbourLowerRight = (allCells[id - cellsPerRow + 1]).GetComponent<Cell>();
     
     // If neighbor exists and is valid, add to neighbour-array
     if (IsCellValid(neighbourUpperLeft))
@@ -221,7 +221,7 @@ public class Cell : MonoBehaviour {
     return (inputCell != null && inputCell.isValid);
   }
 
-  private static bool IsInBounds(int i, ArrayList array) {
-    return (i >= 0 && i < array.Count);
+  private static bool IsInBounds(int i, List<Cell> cells) {
+    return (i >= 0 && i < cells.Count);
   }
 }
