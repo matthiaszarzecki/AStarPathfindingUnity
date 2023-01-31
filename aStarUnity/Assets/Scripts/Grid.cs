@@ -47,7 +47,7 @@ public class Grid : MonoBehaviour {
     }
   }
 
-  public void CalculatePathExternal() {
+  public void CalculatePath() {
     ResetAllCells();
     StartCoroutine(CalculatePathRoutine());
   }

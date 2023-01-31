@@ -24,7 +24,7 @@ public class InputHandler : MonoBehaviour {
         grabbedCube.GetComponent<Collider>().enabled = true;
         grabbedCube = null;
 
-        grid.CalculatePathExternal();
+        grid.CalculatePath();
       }
     }
   }
