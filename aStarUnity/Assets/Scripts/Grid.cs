@@ -48,18 +48,15 @@ public class Grid : MonoBehaviour {
   }
 
   public void CalculatePath() {
-    ResetAllCells();
-    StartCoroutine(CalculatePathRoutine());
-  }
-
-  private void ResetAllCells() {
-    foreach (Cell cell in allCells) {
-      cell.Reset();
+    if (!isCalculating) {
+      StartCoroutine(CalculatePathRoutine());
     }
   }
 
   private IEnumerator CalculatePathRoutine() {
     isCalculating = true;
+    
+    ResetAllCells();
 
     CreateStart(startCellID);
     CreateTarget(targetCellID);
@@ -79,6 +76,8 @@ public class Grid : MonoBehaviour {
         // Safety-abort in case of endless loop
         cycleCounter++;
         if (cycleCounter >= numberOfCells) {
+          startCell = null;
+          targetCell = null;
           Debug.Log("No Path Found");
           break;
         }
@@ -137,6 +136,12 @@ public class Grid : MonoBehaviour {
     }
 
     isCalculating = false;
+  }
+  
+  private void ResetAllCells() {
+    foreach (Cell cell in allCells) {
+      cell.Reset();
+    }
   }
 
   private List<Cell> GetAdjacentCells(Cell currentCell) {
