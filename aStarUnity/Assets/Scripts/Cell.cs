@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 
 public class Cell : MonoBehaviour {
@@ -21,6 +22,7 @@ public class Cell : MonoBehaviour {
   public Material materialStart;
   public Material materialOnClosedList;
   public Material materialOnOpenList;
+  
   private Material materialValid;
   private Renderer currentRenderer;
   private Grid grid;
@@ -84,20 +86,20 @@ public class Cell : MonoBehaviour {
   }
 
   private void OnTriggerStay(Collider other) {
-    if (other.tag == "Obstacle") {
+    if (other.CompareTag($"Obstacle")) {
       if (isValid) {
         isValid = false;
         currentRenderer.material = materialInvalid;
       }
-    } else if (other.tag == "Start") {
+    } else if (other.CompareTag($"Start")) {
       grid.startCellID = id;
-    } else if (other.tag == "Target") {
+    } else if (other.CompareTag($"Target")) {
       grid.targetCellID = id;
     }
   }
 
   private void OnTriggerExit(Collider other) {
-    if (other.tag == "Obstacle") {
+    if (other.CompareTag($"Obstacle")) {
       if (!isValid) {
         isValid = true;
         currentRenderer.material = materialValid;
@@ -126,7 +128,6 @@ public class Cell : MonoBehaviour {
   public void SetToStart() {
     currentRenderer.material = materialStart;
   }
-  
 
   // Gets each neighbor by calculating its position, and checking if a cell exists at those coordinates.
   // Could be replaced with a kernel-check over a two-dimensional array.
@@ -217,14 +218,14 @@ public class Cell : MonoBehaviour {
   }
 
   private static bool IsCellInvalid(Cell inputCell) {
-    return (inputCell != null && !inputCell.isValid);
+    return (inputCell && !inputCell.isValid);
   }
 
   private static bool IsCellValid(Cell inputCell) {
-    return (inputCell != null && inputCell.isValid);
+    return (inputCell && inputCell.isValid);
   }
 
-  private static bool IsInBounds(int i, List<Cell> cells) {
+  private static bool IsInBounds(int i, ICollection cells) {
     return (i >= 0 && i < cells.Count);
   }
 }

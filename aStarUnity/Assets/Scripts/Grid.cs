@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+using System.Linq;
 
 public class Grid : MonoBehaviour {
   public Cell cellPrefab;
@@ -13,8 +13,8 @@ public class Grid : MonoBehaviour {
   public List<Cell> allCells;
   
   private int numberOfCells;
-  private ArrayList openList;
-  private ArrayList closedList;
+  private List<Cell> openList;
+  private List<Cell> closedList;
   private Cell startCell;
   private Cell targetCell;
 
@@ -64,8 +64,8 @@ public class Grid : MonoBehaviour {
     CreateStart(startCellID);
     CreateTarget(targetCellID);
 
-    openList = new ArrayList();
-    closedList = new ArrayList();
+    openList = new List<Cell>();
+    closedList = new List<Cell>();
 
     Cell currentCell = startCell;
     AddCellToClosedList(currentCell);
@@ -105,11 +105,9 @@ public class Grid : MonoBehaviour {
 
       // Get cell with lowest F value from openList, set it to currentCell
       float lowestFValue = 99999.9f;
-      foreach (Cell cell in openList) {
-        if (cell.F < lowestFValue) {
-          lowestFValue = cell.F;
-          currentCell = cell;
-        }
+      foreach (Cell cell in openList.Where(cell => cell.F < lowestFValue)) {
+        lowestFValue = cell.F;
+        currentCell = cell;
       }
 
       // Remove currentCell from openList, add to closedList
@@ -118,8 +116,9 @@ public class Grid : MonoBehaviour {
     }
 
     // Get path
-    ArrayList path = new ();
+    List<Cell> path = new ();
     currentCell = targetCell;
+    
     while (currentCell.id != startCell.id) {
       path.Add(currentCell);
       currentCell = currentCell.parent;
@@ -130,16 +129,14 @@ public class Grid : MonoBehaviour {
     // Draw path
     LineRenderer lineRenderer = GetComponent<LineRenderer>();
     lineRenderer.positionCount = path.Count;
-    int i = 0;
-    foreach (Cell cell in path) {
-      lineRenderer.SetPosition(i, cell.transform.position + new Vector3(0, 1, 0));
-      i++;
+
+    for (int i = 0; i < path.Count; i++) {
+      lineRenderer.SetPosition(i, path[i].transform.position + new Vector3(0, 1, 0));
     }
 
     isCalculating = false;
   }
-
-  [CanBeNull]
+  
   private List<Cell> GetAdjacentCells(Cell currentCell) {
     return currentCell.GetAdjacentCells(allCells, cellsPerRow);
   }
