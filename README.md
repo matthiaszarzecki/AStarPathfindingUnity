@@ -8,4 +8,6 @@ Implementation of the A*-Algorithm in Unity, with various interactions available
 
 ![A* Unity Screenshot](media/astar06.png)
 
+Updated to work with Unity 2021.3.10f1, 2023-01
+
 Created by Matthias Zarzecki, 2015-06
