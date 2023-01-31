@@ -10,6 +10,9 @@ public class Cell : MonoBehaviour {
   public Cell parent;
   public float F;
   public float G;
+  
+  /// The Heuristic Value. This is a quick estimate to see how close this cell is to the.
+  /// target In this case we are using Manhattan Distance, other systems are possible too.
   public float H;
   public TextMesh displayF;
   public TextMesh displayG;
@@ -129,8 +132,8 @@ public class Cell : MonoBehaviour {
     currentRenderer.material = materialStart;
   }
 
-  // Gets each neighbor by calculating its position, and checking if a cell exists at those coordinates.
-  // Could be replaced with a kernel-check over a two-dimensional array.
+  // Gets each neighbor by calculating its position, and checking if a cell exists at
+  // those coordinates. Could be replaced with a kernel-check over a two-dimensional array.
   public List<Cell> GetAdjacentCells(List<Cell> allCells, int cellsPerRow) {
     List<Cell> adjacentCells = new ();
 
@@ -144,54 +147,70 @@ public class Cell : MonoBehaviour {
     Cell neighbourLowerRight = null;
 
     // Check each neighbour
-    if (id % cellsPerRow != 0 && IsInBounds(id + cellsPerRow - 1, allCells))
+    if (id % cellsPerRow != 0 && IsInBounds(id + cellsPerRow - 1, allCells)) {
       neighbourUpperLeft = (allCells[id + cellsPerRow - 1]).GetComponent<Cell>();
+    }
 
-    if (IsInBounds(id + cellsPerRow, allCells))
+    if (IsInBounds(id + cellsPerRow, allCells)) {
       neighbourUpper = (allCells[id + cellsPerRow]).GetComponent<Cell>();
+    }
 
-    if ((id + 1) % cellsPerRow != 0 && IsInBounds(id + cellsPerRow + 1, allCells))
+    if ((id + 1) % cellsPerRow != 0 && IsInBounds(id + cellsPerRow + 1, allCells)) {
       neighbourUpperRight = (allCells[id + cellsPerRow + 1]).GetComponent<Cell>();
+    }
 
-    if (id % cellsPerRow != 0)
+    if (id % cellsPerRow != 0) {
       neighbourLeft = (allCells[id - 1]).GetComponent<Cell>();
+    }
 
-    if ((id + 1) % cellsPerRow != 0)
+    if ((id + 1) % cellsPerRow != 0) {
       neighbourRight = (allCells[id + 1]).GetComponent<Cell>();
+    }
 
-    if (id % cellsPerRow != 0 && IsInBounds(id - cellsPerRow - 1, allCells))
+    if (id % cellsPerRow != 0 && IsInBounds(id - cellsPerRow - 1, allCells)) {
       neighbourLowerLeft = (allCells[id - cellsPerRow - 1]).GetComponent<Cell>();
+    }
 
-    if (IsInBounds(id - cellsPerRow, allCells))
+    if (IsInBounds(id - cellsPerRow, allCells)) {
       neighbourLower = (allCells[id - cellsPerRow]).GetComponent<Cell>();
+    }
 
-    if ((id + 1) % cellsPerRow != 0 && IsInBounds(id - cellsPerRow + 1, allCells))
+    if ((id + 1) % cellsPerRow != 0 && IsInBounds(id - cellsPerRow + 1, allCells)) {
       neighbourLowerRight = (allCells[id - cellsPerRow + 1]).GetComponent<Cell>();
+    }
     
     // If neighbor exists and is valid, add to neighbour-array
-    if (IsCellValid(neighbourUpperLeft))
+    if (IsCellValid(neighbourUpperLeft)) {
       adjacentCells.Add(neighbourUpperLeft);
+    }
 
-    if (IsCellValid(neighbourUpper))
+    if (IsCellValid(neighbourUpper)) {
       adjacentCells.Add(neighbourUpper);
+    }
 
-    if (IsCellValid(neighbourUpperRight))
+    if (IsCellValid(neighbourUpperRight)) {
       adjacentCells.Add(neighbourUpperRight);
-
-    if (IsCellValid(neighbourLeft))
+    }
+    
+    if (IsCellValid(neighbourLeft)) {
       adjacentCells.Add(neighbourLeft);
+    }
 
-    if (IsCellValid(neighbourRight))
+    if (IsCellValid(neighbourRight)) {
       adjacentCells.Add(neighbourRight);
-
-    if (IsCellValid(neighbourLowerLeft))
+    }
+    
+    if (IsCellValid(neighbourLowerLeft)) {
       adjacentCells.Add(neighbourLowerLeft);
-
-    if (IsCellValid(neighbourLower))
+    }
+    
+    if (IsCellValid(neighbourLower)) {
       adjacentCells.Add(neighbourLower);
-
-    if (IsCellValid(neighbourLowerRight))
+    }
+    
+    if (IsCellValid(neighbourLowerRight)) {
       adjacentCells.Add(neighbourLowerRight);
+    }
 
     // Diagonal edge detection. If at an edge, remove from neighbour-array
     if (IsCellInvalid(neighbourRight)) {
