@@ -100,7 +100,7 @@ public class Grid : MonoBehaviour {
               AddCellToOpenList(cell);
           }
         }
-
+        
         yield return new WaitForSeconds(cycleDelay);
 
         // Get cell with lowest F value from openList, set it to currentCell
@@ -115,23 +115,25 @@ public class Grid : MonoBehaviour {
         AddCellToClosedList(currentCell);
       }
 
-      // Get path
-      List<Cell> path = new();
-      currentCell = targetCell;
+      if (targetCell && startCell) {
+        // Get path
+        List<Cell> path = new();
+        currentCell = targetCell;
 
-      while (currentCell.id != startCell.id) {
+        while (currentCell.id != startCell.id) {
+          path.Add(currentCell);
+          currentCell = currentCell.parent;
+        }
         path.Add(currentCell);
-        currentCell = currentCell.parent;
-      }
-      path.Add(currentCell);
-      path.Reverse();
+        path.Reverse();
 
-      // Draw path
-      LineRenderer lineRenderer = GetComponent<LineRenderer>();
-      lineRenderer.positionCount = path.Count;
+        // Draw path
+        LineRenderer lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = path.Count;
 
-      for (int i = 0; i < path.Count; i++) {
-        lineRenderer.SetPosition(i, path[i].transform.position + new Vector3(0, 1, 0));
+        for (int i = 0; i < path.Count; i++) {
+          lineRenderer.SetPosition(i, path[i].transform.position + new Vector3(0, 1, 0));
+        }
       }
     }
 
