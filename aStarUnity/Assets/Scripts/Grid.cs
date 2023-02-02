@@ -17,8 +17,10 @@ public class Grid : MonoBehaviour {
   private List<Cell> closedList;
   private Cell startCell;
   private Cell targetCell;
+  private LineRenderer lineRenderer;
 
   private void Start() {
+    lineRenderer = GetComponent<LineRenderer>();
     CreateCells();
   }
 
@@ -55,6 +57,8 @@ public class Grid : MonoBehaviour {
 
   private IEnumerator CalculatePathRoutine() {
     isCalculating = true;
+    
+    lineRenderer.positionCount = 0;
     
     ResetAllCells();
 
@@ -128,7 +132,6 @@ public class Grid : MonoBehaviour {
         path.Reverse();
 
         // Draw path
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = path.Count;
 
         for (int i = 0; i < path.Count; i++) {
