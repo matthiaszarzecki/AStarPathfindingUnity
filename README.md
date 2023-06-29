@@ -6,7 +6,7 @@ Implementation of the A*-Algorithm in Unity, with various interactions available
 
 | _ |
 :-------------------------:|
-<img src="media/astar05">|
-<img src="media/astar06">|
+<img src="media/astar05.png">|
+<img src="media/astar06.png">|
 
 Created by Matthias Zarzecki, 2015-06
