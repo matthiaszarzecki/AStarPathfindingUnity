@@ -5,7 +5,7 @@
 Implementation of the A*-Algorithm in Unity, with various interactions available. Updated to work with Unity 2021.3.10f1, 2023-01
 
 | _ |
-:-------------------------:|
+:--------:|
 <img src="media/astar05.png">|
 <img src="media/astar06.png">|
 
